@@ -1,0 +1,195 @@
+<%- include('header') %>
+
+<h1>Select an Offair channel from below!</h1>
+
+
+<script>
+    numOfPresets = 9
+
+    //presetNames = ["HDMI 1", "Digital Signage (HDMI 2)", "Pulpitus (HDMI 3)", "HDMI 3 crop","","","","","","","","","","","","",""]
+
+    controlToken = ""
+
+    function changePreset(presetNum) {
+        $.ajaxSetup({
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*',
+                'Ip': $("#controllerIp").val(),
+                'Port': 8088,
+                'Authorization': controlToken
+            }
+        });
+
+        $.ajax({
+            url: "http://" + $("#controllerIp").val() + ":19999/unico/v1/preset/play",
+            type: 'PUT',
+            crossDomain: true,
+            data: '{"presetId": ' + presetNum + ', "sceneType": 2}',
+            success: function(data) {
+                resetAllPresetButtons()
+                //console.log(presetNum);
+    
+                $("#preset-" + presetNum).addClass('btn-danger')
+                $("#preset-" + presetNum).removeClass('btn-outline-success')
+            },
+            error: function() {
+                alert("Couldn't change preset :(")
+            }
+        });
+    }
+
+
+    function resetAllPresetButtons() {
+        for (i = 1; i <= numOfPresets; i++) {
+            $("#preset-"+i).removeClass('btn-danger')
+            $("#preset-"+i).addClass('btn-outline-success')
+        }
+    }
+
+    function disableButtons() {
+        $("#refreshButton").prop("disabled", true)
+
+        for (i = 1; i <= numOfPresets; i++) {
+            $("#preset-"+i).prop("disabled", true)
+        }
+    }
+
+    function enableButtons() {
+        $("#refreshButton").prop("disabled", false)
+
+        for (i = 1; i <= numOfPresets; i++) {
+            $("#preset-"+i).prop("disabled", false)
+        }
+    }
+
+    function refreshPresets() {
+        $.ajaxSetup({
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*',
+                    'Ip': $("#controllerIp").val(),
+                    'Port': 8088,
+                    'Authorization': controlToken
+                }
+            });
+
+            $.ajax({
+                url: "http://" + $("#controllerIp").val() + ":19999/unico/v1/preset/list-detail",
+                type: 'GET',
+                crossDomain: true,
+                success: function(data) {
+                    resetAllPresetButtons()
+                    
+                    //console.log(data)
+
+                    let count = data["data"]["count"]
+                    //console.log(count)
+
+                    for (let i = 0; i < count; i++) {
+                        const presetData = data["data"]["list"][i];
+                        //console.log(presetData)
+
+                        $("#preset-" + (i+1) + "-purpose").text(presetData["general"]["name"])
+                    }
+
+                    let currPreset = data["data"]["currentPresetId"]
+                    $("#preset-" + currPreset).addClass('btn-danger')
+                    $("#preset-" + currPreset).removeClass('btn-outline-success')
+                    
+                },
+                error: function() {
+                    alert("Error while refreshing")
+                }
+            });
+    }
+
+    $("document").ready(function(){
+        disableButtons();
+
+        $("#connectButton").click(function(){ 
+            $.ajaxSetup({
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Ip': $("#controllerIp").val(),
+                    'Port': 8088
+                }
+            });
+
+            $.post("http://" + $("#controllerIp").val() + ":19999/unico/v1/system/auth/login", '{"username": "admin", "password": "MTIzNDU2"}')
+                .done(function(data) {
+                    //console.log(data)
+
+                    controlToken = data['data']['token']
+
+                    $('#token').text("Token: " + controlToken.substring(1,15) + "...")
+                    $('#port').text("Port: " + 8088)
+
+                    enableButtons()
+
+                    refreshPresets()
+
+                    var webSocket = new WebSocket("ws://" + $("#controllerIp").val() + ":19999/unico/v1/ucenter/ws?client-type=0");
+                    webSocket.onerror = function(event) { onError(event) };
+                    webSocket.onopen = function(event) { onOpen(event) };
+                    webSocket.onmessage = function(event) { onMessage(event) };
+                })
+                .fail(function(data) {
+                    disableButtons();
+                    alert("Couldn't connect :(")
+                });
+            
+        });
+
+        $("#refreshButton").click(function(){ 
+            refreshPresets();
+        });
+
+        // set button onClick functions
+        /*for (i = 1; i <= numOfPresets; i++) {
+            $("#preset-"+i).click(function(){ changePreset($.extend( true, {}, i ))});
+        }*/
+
+        $("#preset-1").click(function(){ changePreset(1)});
+        $("#preset-2").click(function(){ changePreset(2)});
+        $("#preset-3").click(function(){ changePreset(3)});
+        $("#preset-4").click(function(){ changePreset(4)});
+        $("#preset-5").click(function(){ changePreset(5)});
+        $("#preset-6").click(function(){ changePreset(6)});
+        $("#preset-7").click(function(){ changePreset(7)});
+        $("#preset-8").click(function(){ changePreset(8)});
+        $("#preset-9").click(function(){ changePreset(9)});
+
+    });
+
+    
+    // WebSocket functions
+
+    function onMessage(event) {
+        event.data.text().then(
+            function(value) {
+                //console.log(value);
+
+                if(value.includes('"presetId"') & value.length < 400) {
+                    let newPresetId = value.split('"presetId":')[1].split(",")[0]
+                    //console.log(newPresetId);
+                   
+                    resetAllPresetButtons()
+                    $("#preset-" + newPresetId).addClass('btn-danger')
+                    $("#preset-" + newPresetId).removeClass('btn-outline-success')
+                }
+                
+            }
+        )
+        
+    }
+
+    function onOpen(event) {
+    }
+
+    function onError(event) {
+    }
+    
+</script>
+
+<%- include('footer') %>

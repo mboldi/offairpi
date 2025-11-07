@@ -1,0 +1,11 @@
+body {
+    --bs-body-bg: #212529;
+    --bs-body-color: antiquewhite;
+
+    --bs-tertiary-bg: #737479;
+}
+
+.muted {
+    font-style: italic;
+    color: #a7acbb;
+}
