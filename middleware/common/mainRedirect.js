@@ -11,7 +11,7 @@ module.exports = function (objectrepository) {
             return res.redirect('/login');
         }
         else {
-            return res.redirect('/ledcontrol');
+            return res.redirect('/select');
         }*/
 
         return res.redirect('/select');
