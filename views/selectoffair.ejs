@@ -11,9 +11,15 @@
             <div style="display: flex; align-items: center; justify-content: space-between; ">
                 <h3 class="mb-0"><%= channel.name %></h3>
                 <div>
-                    <a class="ms-2 btn btn-outline-danger" href="/startchannel/<%= channel.id %>">
-                        Start Stream
-                    </a>
+                    <% if (channel.currentStreamPid === undefined || channel.currentStreamPid === "") { %>
+                        <a class="ms-2 btn btn-outline-danger" href="/startchannel/<%= channel.id %>">
+                            Start Stream
+                        </a>
+                    <% } else { %>
+                        <a class="ms-2 btn btn-outline-danger" href="/stopchannel/<%= channel.id %>">
+                            Stop Stream
+                        </a>
+                    <% } %>
                     <a class="ms-2 btn btn-outline-warning" href="/channel/<%= channel.id %>">
                         <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px"
                              class="button-icon">
@@ -23,6 +29,14 @@
                     </a>
                 </div>
             </div>
+            <div class="mt-2 muted">
+                <ul>
+                    <li><b>Current YouTube stream link:</b> <%= channel.currentStreamLink%></li>
+                    <li><b>Current stream player process ID:</b> <%= channel.currentStreamPid%></li>
+                    <li><b>Video player hardware channel:</b> <%= channel.videoHw%></li>
+                </ul>
+            </div>
+
         </div>
     <% }) %>
 </div>

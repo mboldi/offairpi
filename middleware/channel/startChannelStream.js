@@ -76,7 +76,7 @@ function updateStreamPidInDb(channelId, streamPid) {
 
     for(let i = 0; i < channelsData.channels.length; i++) {
         if(channelsData.channels[i].id  == channelId) {
-            channelsData.channels[i].streamPid = streamPid;
+            channelsData.channels[i].currentStreamPid = streamPid;
 
             break;
         }
