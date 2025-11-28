@@ -24,7 +24,7 @@ module.exports = function (app) {
     /*
     single offair status and edit page
      */
-    app.use('/offair/:id',
+    app.use('/channel/:id',
         //checkUserLoginMW(objectRepository),
         function (req, res, next) {
             if (req.params.id === undefined) {
