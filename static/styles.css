@@ -9,3 +9,16 @@ body {
     font-style: italic;
     color: #a7acbb;
 }
+
+.channelBox {
+    background: #353a42;
+    border-radius: 10px;
+}
+
+.button-icon {
+    fill: antiquewhite;
+}
+
+.btn-outline-warning:hover .button-icon {
+    fill: #212529;
+}

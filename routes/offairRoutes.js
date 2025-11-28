@@ -2,6 +2,7 @@ const renderMW = require('../middleware/common/render');
 
 const mainRedirectMW = require('../middleware/common/mainRedirect');
 
+const getChannelsMW = require('../middleware/channel/getChannels');
 
 module.exports = function (app) {
 
@@ -18,6 +19,7 @@ module.exports = function (app) {
     show offair list to select one for editing
      */
     app.get('/select',
+        getChannelsMW(objectRepository),
         renderMW(objectRepository, 'selectoffair')
     );
 

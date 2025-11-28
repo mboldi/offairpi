@@ -1,0 +1,20 @@
+{
+  "channels": [
+    {
+      "id": 1,
+      "name": "Channel 1",
+      "videoHw": "HDMI-1",
+      "audioHw": "HDMI-1",
+      "currentStreamLink": "https://www.youtube.com/watch?v=mKCieTImjvU",
+      "streamRunning": false
+    },
+    {
+      "id": 2,
+      "name": "Channel 2",
+      "videoHw": "HDMI-1",
+      "audioHw": "HDMI-1",
+      "currentStreamLink": "https://www.youtube.com/watch?v=mKCieTImjvU",
+      "streamRunning": false
+    }
+  ]
+}
