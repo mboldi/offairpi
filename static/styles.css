@@ -9,7 +9,11 @@ body {
     color: #a7acbb;
 }
 
-.channelBox {
+.live-channel {
+    color: #dc3545;
+}
+
+.channel-box {
     background: #353a42;
     border-radius: 10px;
 }

@@ -7,9 +7,11 @@
 
 <div class="m-4 p-2">
     <% data.channelsData.forEach(channel => { %>
-        <div class="p-3 mb-3 channelBox col-sm-12 col-md-10 col-xl-8 col-xxl-6">
+        <div class="p-3 mb-3 channel-box col-sm-12 col-md-10 col-xl-8 col-xxl-6">
             <div style="display: flex; align-items: center; justify-content: space-between; ">
-                <h3 class="mb-0"><%= channel.name %></h3>
+                <h3 class="mb-0<% if (channel.currentStreamPid !== undefined && channel.currentStreamPid !== ""){ %> live-channel<% } %>">
+                    <%= channel.name %>
+                </h3>
                 <div>
                     <% if (channel.currentStreamPid === undefined || channel.currentStreamPid === "") { %>
                         <a class="ms-2 btn btn-outline-danger" href="/startchannel/<%= channel.id %>">
@@ -31,12 +33,11 @@
             </div>
             <div class="mt-2 muted">
                 <ul>
-                    <li><b>Current YouTube stream link:</b> <%= channel.currentStreamLink%></li>
-                    <li><b>Current stream player process ID:</b> <%= channel.currentStreamPid%></li>
-                    <li><b>Video player hardware channel:</b> <%= channel.videoHw%></li>
+                    <li><b>Video player hardware channel:</b> <%= channel.videoHw %></li>
+                    <li><b>Current YouTube stream link:</b> <%= channel.currentStreamLink %></li>
+                    <li><b>Current stream player process ID:</b> <%= channel.currentStreamPid %></li>
                 </ul>
             </div>
-
         </div>
     <% }) %>
 </div>

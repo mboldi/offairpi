@@ -5,6 +5,7 @@ const mainRedirectMW = require('../middleware/common/mainRedirect');
 const getChannelsMW = require('../middleware/channel/getChannels');
 const getChannelMW = require('../middleware/channel/getChannel');
 const startChannelStreamMW = require('../middleware/channel/startChannelStream');
+const stopChannelStreamMW = require('../middleware/channel/stopChannelStream');
 
 module.exports = function (app) {
 
@@ -49,8 +50,10 @@ module.exports = function (app) {
     stop stream of given channel
      */
     app.use('/stopchannel/:id',
+        getChannelMW(objectRepository),
+        stopChannelStreamMW(objectRepository),
         function (req, res, next) {
-            return next();
+            return res.redirect("/select");
         }
     )
 

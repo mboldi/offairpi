@@ -6,7 +6,7 @@
       "videoHw": "HDMI-1",
       "audioHw": "HDMI-1",
       "currentStreamLink": "https://www.youtube.com/watch?v=mKCieTImjvU",
-      "streamPid": ""
+      "currentStreamPid": ""
     }
   ]
 }
