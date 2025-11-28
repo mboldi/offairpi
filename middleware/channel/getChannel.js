@@ -15,7 +15,7 @@ module.exports = function (objectrepository) {
         }
 
         for(let i = 0; i < channelsData.channels.length; i++) {
-            if(channelsData.channels[i].id == req.params.id) {
+            if(channelsData.channels[i].id  == req.params.id) {
                 res.local.channelData = channelsData.channels[i];
             }
         }

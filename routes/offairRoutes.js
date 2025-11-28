@@ -4,6 +4,7 @@ const mainRedirectMW = require('../middleware/common/mainRedirect');
 
 const getChannelsMW = require('../middleware/channel/getChannels');
 const getChannelMW = require('../middleware/channel/getChannel');
+const startChannelStreamMW = require('../middleware/channel/startChannelStream');
 
 module.exports = function (app) {
 
@@ -35,19 +36,19 @@ module.exports = function (app) {
 
     /*
     start stream of given channel
-        queryparam: channelId, streamUrl
      */
-    app.use('/offair/startstream',
+    app.use('/startchannel/:id',
+        getChannelMW(objectRepository),
+        startChannelStreamMW(objectRepository),
         function (req, res, next) {
-            return next();
+            return res.redirect("/select");
         }
     )
 
     /*
     stop stream of given channel
-        queryparam: channelId
      */
-    app.use('/offair/stopstream',
+    app.use('/stopchannel/:id',
         function (req, res, next) {
             return next();
         }
