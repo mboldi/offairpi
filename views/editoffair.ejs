@@ -2,16 +2,18 @@
 
 <div class="page-header mt-3 ms-3">
     <a class="btn btn-outline-info" href="/select">Back to channels</a>
-    <h1 class="mt-2">Edit OffAir <%= data.offairID%></h1>
+    <% if(data.channelData !== undefined) { %>
+        <h1 class="mt-2">Edit Off-Air channel: <i><%= data.channelData.name %></i></h1>
+    <% } else { %>
+        <h1 class="mt-2">No Off-Air channel with the given ID</h1>
+    <% } %>
 </div>
-
-
 
 
 <script>
 
-    $("document").ready(function(){
-        $("#connectButton").click(function(){
+    $("document").ready(function () {
+        $("#connectButton").click(function () {
         });
     });
 </script>

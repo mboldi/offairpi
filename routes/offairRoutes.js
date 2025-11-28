@@ -3,6 +3,7 @@ const renderMW = require('../middleware/common/render');
 const mainRedirectMW = require('../middleware/common/mainRedirect');
 
 const getChannelsMW = require('../middleware/channel/getChannels');
+const getChannelMW = require('../middleware/channel/getChannel');
 
 module.exports = function (app) {
 
@@ -28,19 +29,7 @@ module.exports = function (app) {
      */
     app.use('/channel/:id',
         //checkUserLoginMW(objectRepository),
-        function (req, res, next) {
-            if (req.params.id === undefined) {
-                return res.redirect('/select');
-            }
-
-            if (res.local === undefined) {
-                res.local = {};
-            }
-
-            res.local.offairID = req.params.id;
-
-            return next();
-        },
+        getChannelMW(objectRepository),
         renderMW(objectRepository, 'editoffair')
     );
 
